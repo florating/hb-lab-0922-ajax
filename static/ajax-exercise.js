@@ -4,8 +4,7 @@
 
 function showFortune(evt) {
     evt.preventDefault();
-  // TODO: get the fortune and show it in the #fortune-text div
-  $.get('/fortune', res => {
+    $.get('/fortune', res => {
       $('#fortune-text').html(res);
   });
 }
@@ -16,20 +15,13 @@ $('#get-fortune-button').on('click', showFortune);
 
 function showWeather(evt) {
   evt.preventDefault();
-
   const url = '/weather.json';
   const formData = {zipcode: $('#zipcode-field').val()};
-  // $.get(url, data, successFunction)
-  // the parameter data is an object; each key-value pair gets sent via query string
-  $.get(url, formData, res => {
-    // which of these is true?
-    // res = {'forecast': 'Kind of boring.', 'temp': '68F'}
-    // res = "{'forecast': 'Kind of boring.', 'temp': '68F'}"
 
-    $('#weather-info').text(res['forecast']);
+  $.get(url, formData, res => {
+    // res = {'forecast': 'Kind of boring.', 'temp': '68F'}
+    $('#weather-info').text(res.forecast);
   });
-  // TODO: request weather with that URL and show the forecast in #weather-info
-  
 }
 
 $('#weather-form').on('submit', showWeather);
@@ -38,20 +30,20 @@ $('#weather-form').on('submit', showWeather);
 
 function orderMelons(evt) {
   evt.preventDefault();
-
   const url = '/order-melons.json';
   const formInputs = {
       qty: $('#qty-field').val(),
-      type: $('#melon-type-field').val()
+      melon_type: $('#melon-type-field').val()
   };
 
   $.post(url, formInputs, res => {
       // res = jsonify({'code': result_code, 'msg': result_text}) <-- server.py
-      $('#order-status').html(res); // MAYBE FIXME
-      alert(res['qty'], res['type']); // FIXME
+      const message = `${res.code}<br>${res.msg}`;
+      if (res.code === 'ERROR') {
+        $('#order-status').addClass('order-error');
+      }
+      $('#order-status').html(message);
   });
-  // TODO: show the result message after your form
-  // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
 }
 
 $('#order-form').on('submit', orderMelons);
