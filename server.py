@@ -66,7 +66,7 @@ def order_melons():
         result_text = f"You have bought {qty} {melon} melons"
     else:
         result_code = 'ERROR'
-        result_text = "You want to buy fewer than 1 melons? Huh?"
+        result_text = "You want to buy fewer than 1 melon? Huh?"
 
     return jsonify({'code': result_code, 'msg': result_text})
 

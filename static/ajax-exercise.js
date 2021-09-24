@@ -39,10 +39,13 @@ function orderMelons(evt) {
   $.post(url, formInputs, res => {
       // res = jsonify({'code': result_code, 'msg': result_text}) <-- server.py
       const message = `${res.code}<br>${res.msg}`;
+      const order = $('#order-status');
       if (res.code === 'ERROR') {
-        $('#order-status').addClass('order-error');
+        order.addClass('order-error');
+      } else if (order.hasClass('order-error')) {
+          order.removeClass('order-error');
       }
-      $('#order-status').html(message);
+      order.html(message);
   });
 }
 
